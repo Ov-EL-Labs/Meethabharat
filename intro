@@ -1,0 +1,163 @@
+<!-- =================================================================
+     Ov.EL Labs — 8.0-Second Non-Commercial Concept Pre-Roll Bumper
+     Clean Swiss/Editorial design system with 5.6s of undisturbed reading time
+     ================================================================= -->
+<div id="ovelPreRoll" class="ovel-preroll-overlay">
+    <div class="ovel-composition">
+        <!-- Ov.EL LABS Vector Identity -->
+        <div class="ovel-logo-block">
+            <svg viewBox="0 0 470 165" width="240" aria-label="Ov.EL LABS">
+                <g class="ovel-glyphs" fill="#0A0A0D">
+                    <path fill-rule="evenodd"
+                        d="M 78 28 C 115 28, 140 53, 140 88 C 140 123, 115 148, 78 148 C 41 148, 16 123, 16 88 C 16 53, 41 28, 78 28 Z M 78 52 C 56 52, 41 67, 41 88 C 41 109, 56 124, 78 124 C 100 124, 115 109, 115 88 C 115 67, 100 52, 78 52 Z" />
+                    <path
+                        d="M 152 60 C 150 54, 154 50, 160 50 L 171 50 C 176 50, 179 53, 181 58 L 198 112 C 199 115, 201 115, 202 112 L 219 58 C 221 53, 224 50, 229 50 L 240 50 C 246 50, 250 54, 248 60 L 216 140 C 214 145, 210 147, 204 147 L 196 147 C 190 147, 186 145, 184 140 Z" />
+                    <path
+                        d="M 278 36 C 278 31, 281 28, 286 28 L 352 28 C 357 28, 360 31, 360 36 L 360 44 C 360 49, 357 52, 352 52 L 303 52 L 303 76 L 346 76 C 351 76, 354 79, 354 84 L 354 91 C 354 96, 351 99, 346 99 L 303 99 L 303 123 L 354 123 C 359 123, 362 126, 362 131 L 362 139 C 362 144, 359 147, 354 147 L 286 147 C 281 147, 278 144, 278 139 Z" />
+                    <path
+                        d="M 374 36 C 374 31, 377 28, 382 28 L 391 28 C 396 28, 399 31, 399 36 L 399 123 L 442 123 C 447 123, 450 126, 450 131 L 450 139 C 450 144, 447 147, 442 147 L 382 147 C 377 147, 374 144, 374 139 Z" />
+                </g>
+                <circle class="ovel-dot" cx="255" cy="134" r="13.5" fill="#6214E8" />
+                <g fill="#6214E8" font-family="Inter, sans-serif" font-weight="800" font-size="15.5"
+                    letter-spacing="1.5">
+                    <text x="421" y="114" transform="rotate(-90 421 114)">L</text>
+                    <text x="421" y="94" transform="rotate(-90 421 94)">A</text>
+                    <text x="421" y="73" transform="rotate(-90 421 73)">B</text>
+                    <text x="421" y="52" transform="rotate(-90 421 52)">S</text>
+                </g>
+            </svg>
+            <span class="ovel-sub">WEB AGENCY</span>
+        </div>
+
+        <div class="ovel-rule"></div>
+
+        <!-- Calm, Readable Non-Commercial Notice (Stays still from 1.6s to 7.2s) -->
+        <div class="ovel-copy">
+            <h2>Independent Concept Showcase</h2>
+            <p>
+                This project is a non-commercial concept created by <strong>Ov.EL Labs</strong>
+                to showcase our web design and engineering capabilities. It is not the official
+                website of <strong>meetha bharat°</strong>, and no revenue or profit is generated.
+            </p>
+        </div>
+    </div>
+
+    <!-- Minimal 8-Second Progress Line -->
+    <div class="ovel-progress-track">
+        <div class="ovel-progress-fill"></div>
+    </div>
+</div>
+
+<style>
+    .ovel-preroll-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        background: #FFFFFF;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Inter', -apple-system, sans-serif;
+        color: #0A0A0D;
+        animation: ovelCurtainFade 0.75s cubic-bezier(0.22, 1, 0.36, 1) 7.25s forwards;
+    }
+
+    .ovel-composition {
+        max-width: 520px;
+        padding: 2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .ovel-logo-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        transform: translateY(14px);
+        animation: ovelSlideUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+    }
+
+    .ovel-sub {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        color: #686878;
+        margin-top: 4px;
+    }
+
+    .ovel-rule {
+        width: 0;
+        height: 2px;
+        background: #6214E8;
+        margin: 1.75rem 0;
+        animation: ovelRuleExpand 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.3s forwards;
+    }
+
+    .ovel-copy {
+        opacity: 0;
+        transform: translateY(10px);
+        animation: ovelSlideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.45s forwards;
+    }
+
+    .ovel-copy h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0 0 0.65rem;
+        letter-spacing: -0.01em;
+    }
+
+    .ovel-copy p {
+        font-size: 0.9375rem;
+        line-height: 1.7;
+        color: #454552;
+        margin: 0;
+    }
+
+    .ovel-progress-track {
+        position: absolute;
+        bottom: 32px;
+        width: min(85%, 420px);
+        height: 3px;
+        background: #E6E6EC;
+        border-radius: 99px;
+        overflow: hidden;
+    }
+
+    .ovel-progress-fill {
+        height: 100%;
+        width: 0%;
+        background: #6214E8;
+        animation: ovelLinear8s 8.0s linear forwards;
+    }
+
+    @keyframes ovelSlideUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes ovelRuleExpand {
+        to {
+            width: 48px;
+        }
+    }
+
+    @keyframes ovelLinear8s {
+        to {
+            width: 100%;
+        }
+    }
+
+    @keyframes ovelCurtainFade {
+        to {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    }
+</style>

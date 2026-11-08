@@ -1,0 +1,26 @@
+< !-- Include Google Font Fredoka for rounded geometric lowercase typography --><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet"><div class="mb-hero-stage">< !-- Stacked meetha bharat° Vector Wordmark --><svg viewBox="0 0 460 220" width="420" overflow="visible"><defs><linearGradient id="mbHeroGrad" x1="0%" y1="30%" x2="100%" y2="70%"><stop offset="0%" stop-color="#FF057C" /><stop offset="48%" stop-color="#F20866" /><stop offset="100%" stop-color="#EE1C25" /></linearGradient></defs>< !-- Top Line: meetha+hollow circle (°) --><g font-family="'Fredoka', sans-serif" font-weight="500" font-size="92" fill="url(#mbHeroGrad)"><text x="18" y="96" class="mb-char" style="animation-delay: 0.05s">m</text><text x="103" y="96" class="mb-char" style="animation-delay: 0.11s">e</text><text x="158" y="96" class="mb-char" style="animation-delay: 0.17s">e</text><text x="213" y="96" class="mb-char" style="animation-delay: 0.23s">t</text><text x="255" y="96" class="mb-char" style="animation-delay: 0.29s">h</text><text x="313" y="96" class="mb-char" style="animation-delay: 0.35s">a</text><circle cx="390" cy="40" r="9.5" fill="none" stroke="#EE1C25" stroke-width="4.2" class="mb-char" style="animation-delay: 0.52s" /></g>< !-- Bottom Line: bharat --><g font-family="'Fredoka', sans-serif" font-weight="500" font-size="92" fill="url(#mbHeroGrad)"><text x="18" y="188" class="mb-char" style="animation-delay: 0.15s">b</text><text x="79" y="188" class="mb-char" style="animation-delay: 0.21s">h</text><text x="137" y="188" class="mb-char" style="animation-delay: 0.27s">a</text><text x="199" y="188" class="mb-char" style="animation-delay: 0.33s">r</text><text x="241" y="188" class="mb-char" style="animation-delay: 0.39s">a</text><text x="303" y="188" class="mb-char" style="animation-delay: 0.45s">t</text></g></svg></div><style>.mb-char {
+  opacity: 0;
+  transform: translateY(18px) scale(0.86);
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: mbCharPop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes mbCharPop {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.84);
+  }
+
+  70% {
+    opacity: 1;
+    transform: translateY(-3px) scale(1.03);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+</style>
