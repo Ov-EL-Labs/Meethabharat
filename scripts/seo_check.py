@@ -97,33 +97,33 @@ def main():
     for page in PAGES:
         issues = check_page(page)
         if issues:
-            print(f"❌ {page}: {len(issues)} issue(s)")
+            print(f"[FAIL] {page}: {len(issues)} issue(s)")
             for iss in issues:
                 print(f"   - {iss}")
             total_issues += len(issues)
         else:
-            print(f"✅ {page}: Clean (Passed all checks)")
+            print(f"[PASS] {page}: Clean (Passed all checks)")
 
     # Robots.txt
     if os.path.exists('robots.txt') and 'Sitemap:' in open('robots.txt').read():
-        print("✅ robots.txt: Found with valid Sitemap directive")
+        print("[PASS] robots.txt: Found with valid Sitemap directive")
     else:
-        print("❌ robots.txt: Missing or invalid")
+        print("[FAIL] robots.txt: Missing or invalid")
         total_issues += 1
 
     # Sitemap.xml
     if os.path.exists('sitemap.xml') and '<urlset' in open('sitemap.xml').read():
-        print("✅ sitemap.xml: Found and well-formed")
+        print("[PASS] sitemap.xml: Found and well-formed")
     else:
-        print("❌ sitemap.xml: Missing or invalid")
+        print("[FAIL] sitemap.xml: Missing or invalid")
         total_issues += 1
 
     print("=" * 60)
     if total_issues == 0:
-        print("🎉 ALL TESTS PASSED! Project is production ready.")
+    print("ALL CHECKS PASSED. Project is production ready.")
         sys.exit(0)
     else:
-        print(f"⚠️ Found {total_issues} issue(s).")
+    print(f"Found {total_issues} issue(s).")
         sys.exit(1)
 
 if __name__ == '__main__':

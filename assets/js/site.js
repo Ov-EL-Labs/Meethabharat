@@ -370,7 +370,7 @@
     checkoutModal.innerHTML =
       '<div class="demo-checkout-box">' +
         '<div class="demo-checkout-header">' +
-          '<h3 id="demo-modal-title" style="font-family:var(--font-display); font-size:1.1875rem; margin:0;">✨ Demo Concept Checkout</h3>' +
+          '<h3 id="demo-modal-title" style="font-family:var(--font-display); font-size:1.1875rem; margin:0;"><svg class="ui-icon ui-icon-inline" aria-hidden="true"><use href="assets/icons/icons.svg#sparkles"></use></svg> Demo Concept Checkout</h3>' +
           '<button id="close-modal-btn" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>' +
         '</div>' +
         '<div class="demo-checkout-body" id="modal-body-content">' +
@@ -409,7 +409,7 @@
       var body = document.getElementById('modal-body-content');
       body.innerHTML =
         '<div style="text-align:center; padding:var(--s4) 0;">' +
-          '<span style="font-size:3rem; display:block; margin-bottom:var(--s2);">🎉</span>' +
+          '<span style="font-size:3rem; display:block; margin-bottom:var(--s2);"><svg class="ui-icon ui-icon-inline" aria-hidden="true"><use href="assets/icons/icons.svg#celebration"></use></svg></span>' +
           '<h3 style="font-family:var(--font-display); font-size:1.25rem; color:var(--brand-crimson); margin-bottom:var(--s2);">' +
             'Demo Order Confirmed!' +
           '</h3>' +
@@ -477,7 +477,7 @@
         '</div>' +
         '<div class="cart-drawer-body">' +
           '<div class="cart-empty-state">' +
-            '<span class="cart-empty-icon" aria-hidden="true">🍬</span>' +
+            '<span class="cart-empty-icon" aria-hidden="true"><svg class="ui-icon ui-icon-inline" aria-hidden="true"><use href="assets/icons/icons.svg#candy"></use></svg></span>' +
             '<p class="cart-empty-text">Your cart is currently empty</p>' +
             '<p class="cart-empty-sub">Explore our handcrafted sweets, crunches &amp; namkeens to add joy to your bag.</p>' +
             '<a href="sweets.html" class="btn btn-primary" style="font-size:0.875rem;">Browse Sweets →</a>' +
