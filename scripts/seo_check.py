@@ -120,10 +120,10 @@ def main():
 
     print("=" * 60)
     if total_issues == 0:
-    print("ALL CHECKS PASSED. Project is production ready.")
+        print("ALL CHECKS PASSED. Project is production ready.")
         sys.exit(0)
     else:
-    print(f"Found {total_issues} issue(s).")
+        print(f"Found {total_issues} issue(s).")
         sys.exit(1)
 
 if __name__ == '__main__':
