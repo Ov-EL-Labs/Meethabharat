@@ -2,30 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://meethabharat.com/</loc>
-    <lastmod>2026-11-07</lastmod>
+    <lastmod>2026-11-08</lastmod>
   </url>
   <url>
-    <loc>https://meethabharat.com/sweets.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://meethabharat.com/sweets</loc>
+    <lastmod>2026-11-08</lastmod>
   </url>
   <url>
-    <loc>https://meethabharat.com/bites-and-crunch.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://meethabharat.com/bites-and-crunch</loc>
+    <lastmod>2026-11-08</lastmod>
   </url>
   <url>
-    <loc>https://meethabharat.com/about.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://meethabharat.com/about</loc>
+    <lastmod>2026-11-08</lastmod>
   </url>
   <url>
-    <loc>https://meethabharat.com/crunches.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://meethabharat.com/crunches</loc>
+    <lastmod>2026-11-08</lastmod>
   </url>
   <url>
-    <loc>https://meethabharat.com/ladoos.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://meethabharat.com/ladoos</loc>
+    <lastmod>2026-11-08</lastmod>
   </url>
   <url>
-    <loc>https://meethabharat.com/namkeens.html</loc>
-    <lastmod>2026-11-07</lastmod>
+    <loc>https://meethabharat.com/namkeens</loc>
+    <lastmod>2026-11-08</lastmod>
+  </url>
+  <url>
+    <loc>https://meethabharat.com/contact</loc>
+    <lastmod>2026-11-08</lastmod>
   </url>
 </urlset>

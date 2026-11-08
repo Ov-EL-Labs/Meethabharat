@@ -583,7 +583,7 @@
             '<span class="cart-empty-icon" aria-hidden="true"><svg class="ui-icon ui-icon-inline" aria-hidden="true"><use href="assets/icons/icons.svg#candy"></use></svg></span>' +
             '<p class="cart-empty-text">Your cart is currently empty</p>' +
             '<p class="cart-empty-sub">Explore our handcrafted sweets, crunches &amp; namkeens to add joy to your bag.</p>' +
-            '<a href="sweets.html" class="btn btn-primary" style="font-size:0.875rem;">Browse Sweets →</a>' +
+            '<a href="/sweets" class="btn btn-primary" style="font-size:0.875rem;">Browse Sweets →</a>' +
           '</div>' +
         '</div>';
     } else {
