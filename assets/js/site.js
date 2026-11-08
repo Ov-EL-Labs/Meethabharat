@@ -177,12 +177,46 @@
   /* ----------------------------------------------------------------
      6. Subtle Ov.EL Labs Demo Concept Pill (Fixed Lower Corner)
      ---------------------------------------------------------------- */
-  if (!document.querySelector('.ovel-concept-pill')) {
+  var disclaimerDismissed = false;
+  try {
+    disclaimerDismissed = localStorage.getItem('ovelDisclaimerDismissed') === 'true';
+  } catch (err) {}
+
+  function dismissDisclaimer(pill) {
+    if (!pill) return;
+    pill.classList.add('is-dismissed');
+    try {
+      localStorage.setItem('ovelDisclaimerDismissed', 'true');
+    } catch (err) {}
+    setTimeout(function () {
+      if (pill.parentNode) pill.parentNode.removeChild(pill);
+    }, 220);
+  }
+
+  if (!disclaimerDismissed && !document.querySelector('.ovel-concept-pill')) {
     var demoPill = document.createElement('aside');
     demoPill.className = 'ovel-concept-pill';
     demoPill.setAttribute('aria-label', 'Demo Disclaimer');
-    demoPill.innerHTML = '<span class="ovel-concept-dot" aria-hidden="true"></span><span>* Concept Showcase by <strong>Ov.EL Labs</strong> · Not affiliated with Meetha Bharat® · No real orders</span>';
+    demoPill.innerHTML = '<span class="ovel-concept-dot" aria-hidden="true"></span><span>* Concept Showcase by <strong>Ov.EL Labs</strong> · Not affiliated with Meetha Bharat® · No real orders</span><button type="button" class="ovel-concept-dismiss" aria-label="Hide project disclaimer">&times;</button>';
     document.body.appendChild(demoPill);
+  }
+
+  var existingDisclaimer = document.querySelector('.ovel-concept-pill');
+  if (existingDisclaimer && !disclaimerDismissed) {
+    var disclaimerButton = existingDisclaimer.querySelector('.ovel-concept-dismiss');
+    if (!disclaimerButton) {
+      disclaimerButton = document.createElement('button');
+      disclaimerButton.type = 'button';
+      disclaimerButton.className = 'ovel-concept-dismiss';
+      disclaimerButton.setAttribute('aria-label', 'Hide project disclaimer');
+      disclaimerButton.innerHTML = '&times;';
+      existingDisclaimer.appendChild(disclaimerButton);
+    }
+    disclaimerButton.addEventListener('click', function () {
+      dismissDisclaimer(existingDisclaimer);
+    });
+  } else if (existingDisclaimer && disclaimerDismissed) {
+    existingDisclaimer.remove();
   }
 
   /* ----------------------------------------------------------------
@@ -405,11 +439,12 @@
     document.getElementById('close-modal-btn').addEventListener('click', closeCheckoutModal);
 
     document.getElementById('confirm-demo-btn').addEventListener('click', function () {
+      playSweetSuccessChime();
       var randId = Math.floor(1000 + Math.random() * 9000);
       var body = document.getElementById('modal-body-content');
       body.innerHTML =
-        '<div style="text-align:center; padding:var(--s4) 0;">' +
-          '<span style="font-size:3rem; display:block; margin-bottom:var(--s2);"><svg class="ui-icon ui-icon-inline" aria-hidden="true"><use href="assets/icons/icons.svg#celebration"></use></svg></span>' +
+        '<div class="order-success-state">' +
+          '<span class="order-success-icon"><svg class="ui-icon" aria-hidden="true"><use href="assets/icons/icons.svg#celebration"></use></svg></span>' +
           '<h3 style="font-family:var(--font-display); font-size:1.25rem; color:var(--brand-crimson); margin-bottom:var(--s2);">' +
             'Demo Order Confirmed!' +
           '</h3>' +
@@ -432,6 +467,27 @@
       });
 
       document.getElementById('close-modal-receipt-btn').addEventListener('click', closeCheckoutModal);
+    });
+  }
+
+  function playSweetSuccessChime() {
+    var AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    var ctx = new AudioCtx();
+    var now = ctx.currentTime;
+    [523.25, 659.25, 783.99, 987.77].forEach(function (freq, i) {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      var t = now + i * 0.095;
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0.0001, t);
+      gain.gain.linearRampToValueAtTime(0.06, t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.15);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(t);
+      osc.stop(t + 1.2);
     });
   }
 
@@ -618,13 +674,12 @@
 
     e.preventDefault();
     var card = btn.closest('.sweet-card, .product-card');
-    if (!card) return;
 
-    var id = btn.getAttribute('data-id') || (card.querySelector('h2, h3') ? card.querySelector('h2, h3').textContent.trim().toLowerCase().replace(/\s+/g, '-') : 'sweet-item');
-    var name = btn.getAttribute('data-name') || (card.querySelector('h2, h3') ? card.querySelector('h2, h3').textContent.trim() : 'Delightful Sweet');
+    var id = btn.getAttribute('data-id') || (card && card.querySelector('h2, h3') ? card.querySelector('h2, h3').textContent.trim().toLowerCase().replace(/\s+/g, '-') : 'sweet-item');
+    var name = btn.getAttribute('data-name') || (card && card.querySelector('h2, h3') ? card.querySelector('h2, h3').textContent.trim() : 'Delightful Sweet');
     var price = Number(btn.getAttribute('data-price') || 380);
     var unit = btn.getAttribute('data-unit') || btn.getAttribute('data-weight') || '500g';
-    var imgEl = card.querySelector('img');
+    var imgEl = card && card.querySelector('img');
     var image = btn.getAttribute('data-image') || (imgEl ? imgEl.getAttribute('src') : 'assets/1.-Kaju-Katli.jpg');
 
     addToCart({
@@ -635,6 +690,7 @@
       image: image,
       qty: 1
     });
+    if (btn.getAttribute('data-open-cart') === 'true') openCartDrawer();
   });
 
   // Initialize
