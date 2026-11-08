@@ -52,6 +52,20 @@ Open <http://localhost:8000/> in a browser.
 
 Opening the HTML files directly also renders the pages, but an HTTP server is the recommended local workflow.
 
+## Vercel deployment
+
+The [`vercel.json`](./vercel.json) configuration enables extensionless URLs and disables trailing slashes. On Vercel, pages are available at clean paths such as:
+
+- `/sweets`
+- `/crunches`
+- `/ladoos`
+- `/namkeens`
+- `/bites-and-crunch`
+- `/about`
+- `/contact`
+
+Deploy the repository as a static project. No build command or output directory is required.
+
 ## Project structure
 
 ```text
