@@ -1989,6 +1989,35 @@ a { color: inherit; text-decoration: none; }
   color: var(--brand-crimson);
 }
 
+.cart-qty-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.cart-qty-input {
+  width: 38px;
+  min-width: 38px;
+  height: 26px;
+  padding: 0 2px;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: 600 0.8125rem var(--font-body);
+  text-align: center;
+  -moz-appearance: textfield;
+}
+.cart-qty-input::-webkit-outer-spin-button,
+.cart-qty-input::-webkit-inner-spin-button { margin: 0; -webkit-appearance: none; }
+.cart-qty-input:focus-visible { outline: 2px solid var(--brand-pink); outline-offset: -2px; }
+
+.cart-limit-note {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
 .cart-qty-val {
   min-width: 24px;
   text-align: center;

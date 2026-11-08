@@ -8,6 +8,8 @@ The site presents handcrafted mithai, crunches, ladoos, namkeens, gifting ideas,
 
 - Responsive static pages for the home page, sweets, crunches, ladoos, namkeens, about, and contact content.
 - Product cards with a client-side shopping cart backed by cookies and local storage.
+- Cart safeguards that limit each product to 90 units, the full cart to 500 units, and the order value to ₹850,000 including GST.
+- Editable cart quantities with keyboard input alongside plus and minus controls.
 - Demonstration checkout with GST calculation, order confirmation animation, and a Web Audio success chime.
 - Custom brand favicon and reusable SVG icon sprite.
 - Direct use of the supplied nuts, ghee, sparkle, and location artwork.

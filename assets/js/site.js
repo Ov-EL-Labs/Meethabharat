@@ -271,7 +271,54 @@
     updateCartUI();
   }
 
-  var cart = loadCart();
+  var MAX_ITEM_QTY = 90;
+  var MAX_CART_QTY = 500;
+  var MAX_CART_VALUE = 850000;
+  var GST_RATE = 0.05;
+
+  function getCartQuantity(items) {
+    return (items || cart).reduce(function (total, item) {
+      return total + item.qty;
+    }, 0);
+  }
+
+  function getCartSubtotal(items) {
+    return (items || cart).reduce(function (total, item) {
+      return total + (item.price * item.qty);
+    }, 0);
+  }
+
+  function getCartValue(items) {
+    return Math.round(getCartSubtotal(items) * (1 + GST_RATE) * 100) / 100;
+  }
+
+  function normalizeCart(items) {
+    var normalized = [];
+    var total = 0;
+    if (!Array.isArray(items)) return normalized;
+
+    items.forEach(function (item) {
+      if (!item || !item.id || total >= MAX_CART_QTY) return;
+      var requestedQty = Math.max(1, Number(item.qty) || 1);
+      var price = Number(item.price) || 0;
+      var availableValue = MAX_CART_VALUE - getCartValue(normalized);
+      var valueLimitedQty = price > 0 ? Math.floor(availableValue / (price * (1 + GST_RATE))) : requestedQty;
+      var qty = Math.min(requestedQty, MAX_ITEM_QTY, MAX_CART_QTY - total, valueLimitedQty);
+      if (qty < 1) return;
+      normalized.push({
+        id: item.id,
+        name: item.name || 'Delightful Sweet',
+        price: price,
+        unit: item.unit || '500g',
+        image: item.image || 'assets/1.-Kaju-Katli.jpg',
+        qty: qty
+      });
+      total += qty;
+    });
+    return normalized;
+  }
+
+  var cart = normalizeCart(loadCart());
 
   // Create Cart Backdrop & Drawer DOM elements
   var backdrop = document.createElement('div');
@@ -390,7 +437,7 @@
     cart.forEach(function (item) {
       subtotal += (item.price * item.qty);
     });
-    var gst = Math.round(subtotal * 0.05 * 100) / 100;
+    var gst = Math.round(subtotal * GST_RATE * 100) / 100;
     var grandTotal = Math.round((subtotal + gst) * 100) / 100;
 
     var itemsList = '';
@@ -508,7 +555,7 @@
     });
 
     // 5% Indian GST for confectioneries / sweets
-    var gst = Math.round(subtotal * 0.05 * 100) / 100;
+    var gst = Math.round(subtotal * GST_RATE * 100) / 100;
     var grandTotal = Math.round((subtotal + gst) * 100) / 100;
 
     // Update Nav Badge
@@ -550,8 +597,8 @@
               '<p class="cart-item-meta">' + (item.unit || '500g') + ' · ₹' + item.price + '</p>' +
               '<div class="cart-qty-ctrl">' +
                 '<button class="cart-qty-btn btn-dec" data-id="' + item.id + '" aria-label="Decrease quantity">&minus;</button>' +
-                '<span class="cart-qty-val">' + item.qty + '</span>' +
-                '<button class="cart-qty-btn btn-inc" data-id="' + item.id + '" aria-label="Increase quantity">&plus;</button>' +
+                '<input class="cart-qty-input" type="number" inputmode="numeric" min="1" max="' + MAX_ITEM_QTY + '" value="' + item.qty + '" data-id="' + item.id + '" aria-label="Quantity for ' + item.name + '">' +
+                '<button class="cart-qty-btn btn-inc" data-id="' + item.id + '" aria-label="Increase quantity"' + (item.qty >= MAX_ITEM_QTY || totalCount >= MAX_CART_QTY ? ' disabled' : '') + '>&plus;</button>' +
               '</div>' +
             '</div>' +
             '<div style="text-align:right;">' +
@@ -585,6 +632,7 @@
           '<p style="font-size:0.71875rem; color:var(--text-muted); text-align:center; margin-top:8px; margin-bottom:0;">' +
             '* Demo concept by Ov.EL Labs. Checkout is illustrative; no real orders are fulfilled.' +
           '</p>' +
+          '<p class="cart-limit-note">Maximum ' + MAX_ITEM_QTY + ' units per product, ' + MAX_CART_QTY + ' total units, or ₹' + MAX_CART_VALUE.toLocaleString('en-IN') + ' per order including GST.</p>' +
         '</div>';
     }
 
@@ -610,11 +658,26 @@
         var id = b.getAttribute('data-id');
         for (var i = 0; i < cart.length; i++) {
           if (cart[i].id === id) {
-            cart[i].qty += 1;
+            addToCart({
+              id: cart[i].id,
+              name: cart[i].name,
+              price: cart[i].price,
+              unit: cart[i].unit,
+              image: cart[i].image,
+              qty: 1
+            });
             break;
           }
         }
-        saveCart(cart);
+      });
+    });
+
+    drawer.querySelectorAll('.cart-qty-input').forEach(function (input) {
+      input.addEventListener('change', function () {
+        setCartItemQuantity(input.getAttribute('data-id'), input.value);
+      });
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') input.blur();
       });
     });
 
@@ -643,28 +706,91 @@
     });
   }
 
+  function setCartItemQuantity(id, requestedValue) {
+    var requestedQty = Number(requestedValue);
+    if (!Number.isFinite(requestedQty)) {
+      updateCartUI();
+      return;
+    }
+
+    requestedQty = Math.max(1, Math.floor(requestedQty));
+    for (var i = 0; i < cart.length; i++) {
+      if (cart[i].id !== id) continue;
+
+      var item = cart[i];
+      var otherItems = getCartQuantity() - item.qty;
+      var otherValue = getCartValue() - (item.price * item.qty * (1 + GST_RATE));
+      var valueLimitedQty = item.price > 0
+        ? Math.floor((MAX_CART_VALUE - otherValue) / (item.price * (1 + GST_RATE)))
+        : MAX_ITEM_QTY;
+      var allowedQty = Math.min(MAX_ITEM_QTY, MAX_CART_QTY - otherItems, valueLimitedQty);
+      var nextQty = Math.max(1, Math.min(requestedQty, allowedQty));
+
+      item.qty = nextQty;
+      saveCart(cart);
+      if (nextQty !== requestedQty) {
+        showToast('Quantity adjusted to the cart limits.');
+      }
+      return;
+    }
+  }
+
   // Public Add To Cart Handler
   function addToCart(item) {
+    var requestedQty = Math.max(1, Number(item.qty) || 1);
+    var totalQty = getCartQuantity();
     var existing = false;
+    var addedQty = 0;
     for (var i = 0; i < cart.length; i++) {
       if (cart[i].id === item.id) {
-        cart[i].qty += (item.qty || 1);
+        var availableForItem = MAX_ITEM_QTY - cart[i].qty;
+        var availableInCart = MAX_CART_QTY - totalQty;
+        var availableValue = MAX_CART_VALUE - getCartValue();
+        var valueLimitedQty = Number(item.price) > 0
+          ? Math.floor(availableValue / (Number(item.price) * (1 + GST_RATE)))
+          : requestedQty;
+        addedQty = Math.min(requestedQty, availableForItem, availableInCart, valueLimitedQty);
+        if (addedQty > 0) cart[i].qty += addedQty;
         existing = true;
         break;
       }
     }
     if (!existing) {
+      var newItemPrice = Number(item.price) || 0;
+      var availableValueForNewItem = MAX_CART_VALUE - getCartValue();
+      var valueLimitedNewQty = newItemPrice > 0
+        ? Math.floor(availableValueForNewItem / (newItemPrice * (1 + GST_RATE)))
+        : requestedQty;
+      addedQty = Math.min(requestedQty, MAX_ITEM_QTY, MAX_CART_QTY - totalQty, valueLimitedNewQty);
+      if (addedQty <= 0) {
+        if (totalQty >= MAX_CART_QTY) {
+          showToast('Your cart is limited to ' + MAX_CART_QTY + ' items.');
+        } else {
+          showToast('The order value cannot exceed ₹' + MAX_CART_VALUE.toLocaleString('en-IN') + ' including GST.');
+        }
+        return;
+      }
       cart.push({
         id: item.id,
         name: item.name,
         price: Number(item.price),
         unit: item.unit || '500g',
         image: item.image,
-        qty: item.qty || 1
+        qty: addedQty
       });
     }
+    if (addedQty <= 0) {
+      if (totalQty >= MAX_CART_QTY) {
+        showToast('Your cart is limited to ' + MAX_CART_QTY + ' items.');
+      } else if (cart.some(function (cartItem) { return cartItem.id === item.id && cartItem.qty >= MAX_ITEM_QTY; })) {
+        showToast('You can add up to ' + MAX_ITEM_QTY + ' of this item.');
+      } else {
+        showToast('The order value cannot exceed ₹' + MAX_CART_VALUE.toLocaleString('en-IN') + ' including GST.');
+      }
+      return;
+    }
     saveCart(cart);
-    showToast('Added ' + item.name + ' to cart!');
+    showToast('Added ' + addedQty + ' ' + item.name + ' to cart.');
   }
 
   // Global delegation for any "Add to Cart" / "Order Now" button
